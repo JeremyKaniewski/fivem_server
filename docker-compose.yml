@@ -3,7 +3,7 @@ version: '2'
 services:
 # -------------------------------------------------------------------
   fivem:
-    image: 2cd8bd2344e3e8d87475a4e20c7a439ebc2787541a103876c95fbc899dfe8eab
+    image: jeremykaniewski/fivem:latest
     stdin_open: true
     tty: true
     # volumes:

@@ -1,13 +1,13 @@
 ARG FIVEM_NUM=6132
 ARG FIVEM_VER=6132-989aa18efd1f8739471af9b3bc6e763fe7a383ac
 ARG DATA_VER=3e8e6dfc010e87313e8be81ddb0ded5fc583624c
-FROM wodby/mariadb:latest as builder
+FROM alpine as builder
 ARG FIVEM_VER
 ARG DATA_VER
 
 WORKDIR /output
 USER root
-RUN apk add --no-cache tini mariadb-dev tzdata xz \
+RUN apk add --no-cache tini tzdata xz \
     && rm -f /var/cache/apk/*
 RUN wget http://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/${FIVEM_VER}/fx.tar.xz \
         && tar -xf fx.tar.xz --strip-components=1 --exclude alpine/dev --exclude alpine/proc --exclude alpine/run --exclude alpine/sys \
@@ -17,7 +17,6 @@ RUN wget http://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/${FIV
         && tar -zxvf ${DATA_VER}.tar.gz --strip-components=1 -C opt/cfx-server-data \
         && rm ${DATA_VER}.tar.gz
 
-ADD server.cfg opt/cfx-server-data
 ADD entrypoint usr/bin/entrypoint
 RUN chmod +x /output/usr/bin/entrypoint
 
@@ -36,20 +35,11 @@ LABEL org.label-schema.name="FiveM" \
 
 COPY --from=builder /output/ /
 
-
-
 WORKDIR /config
 
-RUN apk add --no-cache mariadb mariadb-client mariadb-server-utils pwgen tzdata tini && \
+RUN apk add --no-cache pwgen tzdata tini && \
     rm -f /var/cache/apk/*
 
-ADD files/run.sh /scripts/run.sh
-RUN mkdir /docker-entrypoint-initdb.d && \
-    mkdir /scripts/pre-exec.d && \
-    mkdir /scripts/pre-init.d && \
-    chmod -R 755 /scripts
-
-EXPOSE 3306
 EXPOSE 30120
 
 VOLUME ["/var/lib/mysql"]
