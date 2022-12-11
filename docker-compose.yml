@@ -3,16 +3,16 @@ version: '2'
 services:
 # -------------------------------------------------------------------
   fivem:
-    image: henkallsn/fivem_esx_bundle
+    image: 2cd8bd2344e3e8d87475a4e20c7a439ebc2787541a103876c95fbc899dfe8eab
     stdin_open: true
     tty: true
-    volumes:
-      # Remember to change.
-      - "/path/to/resources/folder:/config"
-      # Remember to change.
-      - "/path/to/txAdmin/config:/txData"
-      # Remember to change.
-      - "/path/to/mysql/data:/var/lib/mysql"
+    # volumes:
+    #   # Remember to change.
+    #   - "/path/to/resources/folder:/config"
+    #   # Remember to change.
+    #   - "/path/to/txAdmin/config:/txData"
+    #   # Remember to change.
+    #   - "/path/to/mysql/data:/var/lib/mysql"
     ports:
       - "30120:30120"
       - "30120:30120/udp"
@@ -24,26 +24,17 @@ services:
       HOST_UID: 1000
       HOST_GID: 100
       # Remember to change.
-      FIVEM_HOSTNAME: hostname-to-fivem-server
+      FIVEM_HOSTNAME: localhost
       # Remember to change.
       FIVEM_LICENCE_KEY: license-key-here
       # Remember to change.
       STEAM_WEBAPIKEY: api-key-here
       # Database stuff ---------------
-      DATABASE_SERVICE_NAME: fivem
-      MYSQL_DATABASE: FiveMESX
-      MYSQL_USER: username
-      MYSQL_PASSWORD: password
-      MYSQL_RANDOM_ROOT_PASSWORD: 1
+      # DATABASE_SERVICE_NAME: fivem
+      # MYSQL_DATABASE: FiveMESX
+      # MYSQL_USER: username
+      # MYSQL_PASSWORD: password
+      # MYSQL_RANDOM_ROOT_PASSWORD: 1
       # Change to your timezone
       TZ: Europe/Copenhagen
-# -------------------------------------------------------------------
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin:latest
-    ports:
-      - 8100-8105:80
-    environment:
-      - PMA_HOST=fivem
-    depends_on:
-      - fivem
 # -------------------------------------------------------------------

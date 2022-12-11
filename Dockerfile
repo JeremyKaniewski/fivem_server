@@ -1,5 +1,5 @@
-ARG FIVEM_NUM=5949
-ARG FIVEM_VER=5949-fc523e6fb110df7b2d099c44c16df39dc5a0914c
+ARG FIVEM_NUM=6132
+ARG FIVEM_VER=6132-989aa18efd1f8739471af9b3bc6e763fe7a383ac
 ARG DATA_VER=3e8e6dfc010e87313e8be81ddb0ded5fc583624c
 FROM wodby/mariadb:latest as builder
 ARG FIVEM_VER
@@ -18,8 +18,6 @@ RUN wget http://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/${FIV
         && rm ${DATA_VER}.tar.gz
 
 ADD server.cfg opt/cfx-server-data
-ADD resources.tar opt/cfx-server-data
-ADD database.sql opt/cfx-server-data
 ADD entrypoint usr/bin/entrypoint
 RUN chmod +x /output/usr/bin/entrypoint
 
